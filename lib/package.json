@@ -1,5 +1,5 @@
 {
-    "name": "@local/lib",
+    "name": "@ptolemy2002/react-suspense",
     "version": "0.0.0",
     "main": "index.js",
     "files": [
@@ -7,7 +7,6 @@
     ],
     "scripts": {
         "build": "esbuild src/index.js --bundle --format=cjs --outfile=index.js --loader:.js=jsx --external:react --external:react-dom --external:@types/react --external:@types/react-dom",
-
         "postinstall": "npx typesync",
         "uninstall": "bash ./scripts/uninstall.sh",
         "reinstall": "bash ./scripts/reinstall.sh",
@@ -15,7 +14,6 @@
         "example-install": "bash ./scripts/example-install.sh",
         "example-reinstall": "bash ./scripts/example-reinstall.sh",
         "example-start": "bash ./scripts/example-start.sh",
-
         "release": "bash ./scripts/release.sh",
         "release-patch": "bash ./scripts/release.sh patch",
         "release-minor": "bash ./scripts/release.sh minor",
@@ -23,7 +21,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "www.github.com",
+        "url": "https://github.com/Ptolemy2002/react-suspense",
         "directory": "lib"
     },
     "description": "Example of a React library",
@@ -35,6 +33,10 @@
         "react-dom": "^18.3.1"
     },
     "devDependencies": {
-        "esbuild": "^0.23.0"
+        "@ptolemy2002/react-mount-effects": "^1.1.4",
+        "@ptolemy2002/react-proxy-context": "^1.0.4",
+        "@types/is-callable": "~1.1.2",
+        "esbuild": "^0.23.0",
+        "is-callable": "^1.2.7"
     }
 }
