@@ -24,7 +24,7 @@
         "url": "https://github.com/Ptolemy2002/react-suspense",
         "directory": "lib"
     },
-    "description": "Example of a React library",
+    "description": "Suspense from React 19, but with older versions, and works on the client.",
     "license": "ISC",
     "peerDependencies": {
         "@types/react": "^18.3.3",
