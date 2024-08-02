@@ -66,7 +66,12 @@ This is the class that is provided by the `useSuspenseController` hook. It conta
 - `suspend` (Function): Suspends the current action and executes the provided function, returning its result.
     - Arguments:
         - `fn` (Function): The function to be executed asynchronously.
-        - `timeout` (Number): The time in milliseconds before the action times out. Default is `null`, meaning no timeout. When the timeout is reached, a `SuspenseTimeoutError` is thrown.
+        - `args` (Object): An object that can optionally specify the following properties:
+            - `timeout` (Number): The time in milliseconds before the action times out. Default is `null`, meaning no timeout. When the timeout is reached, `SuspenseTimeoutError` is thrown.
+            - `onTimeout` (Function): A function that is called when the action times out. Passed the timeout error as an argument. Default is `null`.
+            - `onCancel` (Function): A function that is called when the action is cancelled. Passed the cancellation value as an argument. Default is `null`.
+            - `onForceResume` (Function): A function that is called when the `forceResume` Passed the resolution value as an argument. Default is `null`.
+            - `onForceEnd` (Function): A function that is called when the action either times out, is cancelled, or `forceResume` is called. Passed the resulting value (timeout error, cancellation value, or resolution value) as the first argument and a description of the cause as the second argument (either 'timeout', 'cancel', or 'resume'). Default is `null`.
     - Returns:
         - Any - The result of the function.
 - `forceResume` (Function): Resumes the current action by resolving.

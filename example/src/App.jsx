@@ -63,6 +63,7 @@ function Main() {
   const suspenseCatch = useCallback(
     (e) => {
       if (e.isTimeout) {
+        console.log("Timeout caught");
         setTimedOut(true);
       } else {
         throw e;
@@ -75,6 +76,10 @@ function Main() {
     async () => setResult(await suspend(() => {
       setTimedOut(false);
       return wait(2000);
+    }, {
+      onForceEnd: (v, reason) => {
+        console.log("Ending forcefully with", v, "due to", reason);
+      }
     }).catch(suspenseCatch)),
     [suspend, suspenseCatch]
   );
@@ -83,6 +88,10 @@ function Main() {
     async () => setResult(await suspend(() => {
       setTimedOut(false);
       return wait(2000, true);
+    }, {
+      onForceEnd: (v, reason) => {
+        console.log("Ending forcefully with", v, "due to", reason);
+      }
     }).catch(suspenseCatch)),
     [suspend, suspenseCatch]
   );
@@ -91,7 +100,12 @@ function Main() {
     async () => setResult(await suspend(() => {
       setTimedOut(false);
       return wait(2000);
-    }, 1000).catch(suspenseCatch)),
+    }, {
+      timeout: 1000,
+      onForceEnd: (v, reason) => {
+        console.log("Ending forcefully with", v, "due to", reason);
+      }
+    }).catch(suspenseCatch)),
     [suspend, suspenseCatch]
   );
 
