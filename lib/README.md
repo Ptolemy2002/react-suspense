@@ -1,4 +1,4 @@
-# React Library CRA Project
+# React Suspense
 This library is an attempt to implement an API similar to React 19's [Suspense](https://react.dev/reference/react/Suspense), but on the client and with a few differences:
 - Components are not unmouted when they are suspended, just hidden.
 - Instead of promises being passed to the children, the children call a function to execute arbitrary asynchronous code that suspends the components.
