@@ -34,7 +34,7 @@
     },
     "devDependencies": {
         "@ptolemy2002/react-mount-effects": "^1.1.4",
-        "@ptolemy2002/react-proxy-context": "^1.0.4",
+        "@ptolemy2002/react-proxy-context": "^1.0.11",
         "@types/is-callable": "~1.1.2",
         "esbuild": "^0.23.0",
         "is-callable": "^1.2.7"

@@ -43,7 +43,7 @@ function ErrorNotice() {
 }
 
 function LoadingNotice({allowCancel}) {
-  const [sc] = useSuspenseController();
+  const [sc] = useSuspenseController([]);
 
   return (
     <div className="alert alert-info">
@@ -59,6 +59,7 @@ function Main() {
   const [red, setRed] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
   const [result, setResult] = useState(true);
+  console.log("Main rendered");
 
   const suspenseCatch = useCallback(
     (e) => {
