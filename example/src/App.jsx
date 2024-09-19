@@ -13,6 +13,7 @@ async function wait(ms, error=false) {
 
 export default function App() {
   const [initialized, setInitialized] = useState(false);
+  console.log("App rendered");
 
   return (
     <div className="App p-3">
