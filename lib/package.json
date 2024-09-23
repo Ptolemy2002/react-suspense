@@ -38,5 +38,8 @@
         "@types/is-callable": "~1.1.2",
         "esbuild": "^0.23.0",
         "is-callable": "^1.2.7"
+    },
+    "dependencies": {
+        "@ptolemy2002/react-utils": "^1.1.1"
     }
 }
