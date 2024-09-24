@@ -17,7 +17,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-error-boundary": "^4.0.13",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "styled-components": "^6.1.13"
   },
   "scripts": {
     "postinstall": "npx typesync",
@@ -45,6 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {}
+  }
 }
