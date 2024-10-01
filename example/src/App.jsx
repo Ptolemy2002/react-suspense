@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import { SuspenseBoundary, useSuspenseController } from "@ptolemy2002/react-suspense";
 import { ErrorBoundary, useErrorBoundary } from "react-error-boundary";
 import useManualErrorHandling from "@ptolemy2002/react-manual-error-handling";
