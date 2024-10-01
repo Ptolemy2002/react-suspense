@@ -41,6 +41,6 @@
         "is-callable": "^1.2.7"
     },
     "dependencies": {
-        "@ptolemy2002/react-utils": "^1.1.1"
+        "@ptolemy2002/react-utils": "^2.0.0"
     }
 }
