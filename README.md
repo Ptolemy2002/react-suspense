@@ -5,7 +5,7 @@ This library is an attempt to implement an API similar to React 19's [Suspense](
 - There is support for implementing a timeout and manually resume or cancel the current action.
 
 The git repository conttains an example app that uses this library as intended, but here's a quick example:
-```
+```javascript
 import { SuspenseBoundary, useSuspenseController } from '@ptolemy2002/react-suspense';
 
 function MyComponent() {
@@ -34,11 +34,29 @@ function MyAsyncComponent() {
 ```
 
 The functions are not exported as default, so you can import them in one of the following ways:
-```
+```javascript
 // ES6
 import { functionName } from '@ptolemy2002/react-suspense';
 // CommonJS
 const { functionName } = require('@ptolemy2002/react-suspense');
+```
+
+## Type Reference
+```typescript
+type SuspendOptions = {
+  timeout?: number | null;
+  onForceEnd?: ((v: any, reason: "timeout" | "cancel") => void) | null;
+  onCancel?: ((v: any) => void) | null;
+  onForceResume?: ((v: any) => void) | null;
+  onTimeout?: ((e: SuspenseTimeoutError) => void) | null;
+}
+
+type SuspenseBoundaryProps = {
+  children: React.ReactNode;
+  fallback: React.ReactNode;
+  init?: (() => MaybePromise<any>) | null;
+  renderDeps?: any[];
+}
 ```
 
 ## Classes
@@ -56,32 +74,26 @@ A basic error class that is thrown when a suspense action times out. It is a sub
 This is the class that is provided by the `useSuspenseController` hook. It contains methods to suspend, resume, and cancel the current action, along with properties that can be used to check times.
 
 #### Properties
-- `isLoading` (Boolean): `true` if the current action is suspended, `false` otherwise.
-- `suspenseCount` (Number): The number of times the boundary has been suspended.
-- `startTime` (Number): The time at which the last action started, or `null` if no action has started yet or a current action is in progress.
-- `endTime` (Number): The time at which the last action ended, or `null` if no action has ended yet or a current action is in progress.
-- `elapsedTime` (Number): The time in milliseconds between the start and end of the last action, or `null` if no action has ended yet or a current action is in progress.
+- `isLoading` (`boolean`): `true` if the current action is suspended, `false` otherwise.
+- `suspenseCount` (`number`): The number of times the boundary has been suspended.
+- `startTime` (`number | null`): The time at which the last action started, or `null` if no action has started yet or a current action is in progress.
+- `endTime` (`number | null`): The time at which the last action ended, or `null` if no action has ended yet or a current action is in progress.
+- `elapsedTime` (`number | null`): The time in milliseconds between the start and end of the last action, or `null` if no action has ended yet or a current action is in progress.
 
 #### Methods
-- `suspend` (Function): Suspends the current action and executes the provided function, returning its result.
+- `suspend<T>` (`function`): Suspends the current action and executes the provided function, returning its result.
     - Arguments:
-        - `fn` (Function): The function to be executed asynchronously.
-        - `args` (Object): An object that can optionally specify the following properties:
-            - `timeout` (Number): The time in milliseconds before the action times out. Default is `null`, meaning no timeout. When the timeout is reached, `SuspenseTimeoutError` is thrown.
-            - `onTimeout` (Function): A function that is called when the action times out. Passed the timeout error as an argument. Default is `null`.
-            - `onCancel` (Function): A function that is called when the action is cancelled. Passed the cancellation value as an argument. Default is `null`.
-            - `onForceResume` (Function): A function that is called when the `forceResume` Passed the resolution value as an argument. Default is `null`.
-            - `onForceEnd` (Function): A function that is called when the action either times out, is cancelled, or `forceResume` is called. Passed the resulting value (timeout error, cancellation value, or resolution value) as the first argument and a description of the cause as the second argument (either 'timeout', 'cancel', or 'resume'). Default is `null`.
+        - `fn` (`() => MaybePromise<T>`): The function to be executed asynchronously.
+        - `args` (`SuspendOptions`): An object that can optionally specify the following properties:
+            - `timeout` (`number | null`): The time in milliseconds before the action times out. Default is `null`, meaning no timeout. When the timeout is reached, `SuspenseTimeoutError` is thrown.
+            - `onTimeout` (`((e: SuspenseTimeoutError) => void) | null`): A function that is called when the action times out. Passed the timeout error as an argument. Default is `null`.
+            - `onCancel` (`((v: any) => void) | null`): A function that is called when the action is cancelled. Passed the cancellation value as an argument. Default is `null`.
+            - `onForceEnd` (`((v: any, reason: "timeout" | "cancel") => void) | null`): A function that is called when the action either times out, is cancelled, or `forceResume` is called. Passed the resulting value (timeout error, cancellation value, or resolution value) as the first argument and a description of the cause as the second argument (either 'timeout' or 'cancel'). Default is `null`.
     - Returns:
-        - Any - The result of the function.
-- `forceResume` (Function): Resumes the current action by resolving.
+        - `Promise<T | null>` - The result of the function, or `null` if the action wasn't run due to another action being in progress.
+- `cancel` (`function`): Cancels the current action by rejecting.
     - Arguments:
-        - `result` (Any): The result to be returned by the `suspend` function.
-    - Returns:
-        - None
-- `cancel` (Function): Cancels the current action by rejecting.
-    - Arguments:
-        - `result` (Any): The result to be thrown by the `suspend` function.
+        - `result` (`any`): The result to be thrown by the `suspend` function.
     - Returns:
         - None
 

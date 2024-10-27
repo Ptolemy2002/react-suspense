@@ -4,7 +4,7 @@ import { ErrorBoundary, useErrorBoundary } from "react-error-boundary";
 import useManualErrorHandling from "@ptolemy2002/react-manual-error-handling";
 import clsx from "clsx";
 
-async function wait(ms, error=false) {
+async function wait(ms: number, error=false): Promise<boolean> {
   return new Promise((resolve, reject) => setTimeout(() => {
     if (error) return reject(new Error("Intentional app design"));
     resolve(true);
@@ -43,13 +43,13 @@ function ErrorNotice() {
   );
 }
 
-function LoadingNotice({allowCancel}) {
+function LoadingNotice({allowCancel}: {allowCancel: boolean}) {
   const [sc] = useSuspenseController([]);
 
   return (
     <div className="alert alert-info">
       <p>Loading...</p>
-      {allowCancel && <button onClick={() => sc.forceResume(false)}>Cancel</button>}
+      {allowCancel && <button onClick={() => sc.cancel(false)}>Cancel</button>}
     </div>
   );
 }
@@ -63,10 +63,13 @@ function Main() {
   console.log("Main rendered");
 
   const suspenseCatch = useCallback(
-    (e) => {
+    (e: any) => {
       if (e.isTimeout) {
         console.log("Timeout caught");
         setTimedOut(true);
+      } else if (e === false) {
+        console.log("Cancelled");
+        setResult(false);
       } else {
         throw e;
       }
@@ -75,39 +78,47 @@ function Main() {
   );
 
   const handleSuspend = useCallback(
-    async () => setResult(await suspend(() => {
-      setTimedOut(false);
-      return wait(2000);
-    }, {
-      onForceEnd: (v, reason) => {
-        console.log("Ending forcefully with", v, "due to", reason);
-      }
-    }).catch(suspenseCatch)),
+    async () => setResult(
+      await suspend(() => {
+        setTimedOut(false);
+        return wait(2000);
+      }, {
+        onForceEnd: (v, reason) => {
+          console.log("Ending forcefully with", v, "due to", reason);
+        }
+      }).catch(suspenseCatch) as boolean // If it fails, it will be caught by the error boundary
+    ),
     [suspend, suspenseCatch]
   );
 
   const handleErrorSuspend = useCallback(
-    async () => setResult(await suspend(() => {
-      setTimedOut(false);
-      return wait(2000, true);
-    }, {
-      onForceEnd: (v, reason) => {
-        console.log("Ending forcefully with", v, "due to", reason);
-      }
-    }).catch(suspenseCatch)),
+    async () => setResult(
+      (await suspend(() => {
+          setTimedOut(false);
+          return wait(2000, true);
+        }, {
+          onForceEnd: (v, reason) => {
+            console.log("Ending forcefully with", v, "due to", reason);
+          }
+        }).catch(suspenseCatch)
+      )!
+    ),
     [suspend, suspenseCatch]
   );
 
   const handleTimeoutSuspend = useCallback(
-    async () => setResult(await suspend(() => {
-      setTimedOut(false);
-      return wait(2000);
-    }, {
-      timeout: 1000,
-      onForceEnd: (v, reason) => {
-        console.log("Ending forcefully with", v, "due to", reason);
-      }
-    }).catch(suspenseCatch)),
+    async () => setResult(
+      (await suspend(() => {
+          setTimedOut(false);
+          return wait(2000);
+        }, {
+          timeout: 1000,
+          onForceEnd: (v, reason) => {
+            console.log("Ending forcefully with", v, "due to", reason);
+          }
+        }).catch(suspenseCatch)
+      )!,
+    ),
     [suspend, suspenseCatch]
   );
 
