@@ -93,7 +93,7 @@ export type SuspenseBoundaryProps = {
   fallback: React.ReactNode;
   init?: (() => MaybePromise<any>) | null;
   renderDeps?: any[];
-}
+};
 
 export const SuspenseBoundary = partialMemo(({children, fallback, init, renderDeps=[]}: SuspenseBoundaryProps) => {
   const valueRef = useRef<SuspenseController>();
@@ -127,7 +127,7 @@ export const SuspenseBoundary = partialMemo(({children, fallback, init, renderDe
           <SuspenseChild $show={show}>{children}</SuspenseChild>
       </SuspenseContextProvider>
   )
-}, ["children", "fallback"]);
+}, ["children", "fallback"], "SuspenseBoundary");
 
 export function useSuspenseController(deps: Dependency<SuspenseController>[] = [(p, v, prev) => p === "isLoading" && v === false && prev === true]) {
   return useProxyContext(SuspenseContext, deps);
