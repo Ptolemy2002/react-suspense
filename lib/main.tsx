@@ -127,7 +127,7 @@ export const SuspenseBoundary = partialMemo(({children, fallback, init, renderDe
           <SuspenseChild $show={show}>{children}</SuspenseChild>
       </SuspenseContextProvider>
   )
-}, ["children", "fallback"], "SuspenseBoundary");
+}, ["children", "fallback"], "SuspenseBoundary", true);
 
 export function useSuspenseController(deps: Dependency<SuspenseController>[] = [(p, v, prev) => p === "isLoading" && v === false && prev === true]) {
   return useProxyContext(SuspenseContext, deps);
