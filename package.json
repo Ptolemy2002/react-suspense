@@ -20,10 +20,13 @@
     "release-minor": "bash ./scripts/release.sh minor",
     "release-major": "bash ./scripts/release.sh major"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@ptolemy2002/react-mount-effects": "^2.0.0",
     "@ptolemy2002/react-proxy-context": "^2.0.1",
     "@ptolemy2002/react-utils": "^3.0.0",
+    "@ptolemy2002/ts-utils": "^4.0.0"
+  },
+  "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.1.13"
@@ -31,10 +34,6 @@
   "devDependencies": {
     "@eslint/js": "^9.11.1",
     "@ptolemy2002/react-manual-error-handling": "^2.0.1",
-    "@ptolemy2002/react-mount-effects": "^2.0.0",
-    "@ptolemy2002/react-proxy-context": "^2.0.1",
-    "@ptolemy2002/react-utils": "^3.0.0",
-    "@ptolemy2002/ts-utils": "^3.0.0",
     "@types/babel__generator": "^7.6.8",
     "@types/babel__template": "^7.4.4",
     "@types/babel__traverse": "^7.20.6",
